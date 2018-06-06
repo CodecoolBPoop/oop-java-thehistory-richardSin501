@@ -1,4 +1,4 @@
-package com.codecool.thehistory;
+package main.java.com.codecool.thehistory;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -51,5 +51,6 @@ public class TheHistoryLinkedList implements TheHistory {
         if (sb.length() > 0) sb.deleteCharAt(sb.length() - 1); // last space char
         return sb.toString();
     }
+
 
 }

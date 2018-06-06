@@ -1,4 +1,4 @@
-package com.codecool.thehistory;
+package main.java.com.codecool.thehistory;
 
 import java.util.ArrayList;
 import java.util.Collections;

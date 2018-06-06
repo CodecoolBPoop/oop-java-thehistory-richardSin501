@@ -1,9 +1,11 @@
-package com.codecool.thehistory;
+package main.java.com.codecool.thehistory;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import sun.security.util.Length;
+
 
 public class TestTheHistory {
 
@@ -13,8 +15,9 @@ public class TestTheHistory {
         StringBuilder sb = new StringBuilder();
         try {
             in = new BufferedReader(new FileReader(filename));
-            while ((s = in.readLine()) != null)
+            while ((s = in.readLine()) != null) {
                 sb.append(s + "\n");
+            }
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {
@@ -29,8 +32,11 @@ public class TestTheHistory {
         return sb.toString();
     }
 
-    private static String runFunctionalityTest(TheHistory theHistory, String sourceText, String fromWords, String toWords) {
+    private static String runFunctionalityTest(TheHistory theHistory, String sourceText,
+        String fromWords, String toWords) {
+        System.out.println("Length before adding: " + theHistory.size());
         theHistory.add(sourceText);
+        System.out.println("Length after adding: " + theHistory.size());
         theHistory.replace(fromWords, toWords);
         String result = theHistory.toString();
         theHistory.clear();
@@ -60,22 +66,25 @@ public class TestTheHistory {
 
         // insert new words into the text
         result = runFunctionalityTest(theHistory, sourceText, "me", "HAPPY FUN");
-        if (!"replace replace HAPPY FUN replace HAPPY FUN HAPPY FUN HAPPY FUN replace HAPPY FUN HAPPY FUN".equals(result)) {
+        if (!"replace replace HAPPY FUN replace HAPPY FUN HAPPY FUN HAPPY FUN replace HAPPY FUN HAPPY FUN"
+            .equals(result)) {
             System.out.println("replace() IS NOT WORKING AS EXPECTED!");
         }
 
         result = runFunctionalityTest(theHistory, sourceText, "me me", "SUPER HAPPY FUN");
-        if (!"replace replace me replace SUPER HAPPY FUN me replace SUPER HAPPY FUN".equals(result)) {
+        if (!"replace replace me replace SUPER HAPPY FUN me replace SUPER HAPPY FUN"
+            .equals(result)) {
             System.out.println("replace() IS NOT WORKING AS EXPECTED!");
         }
 
         result = runFunctionalityTest(theHistory, sourceText, "me", "SUPER me FUN");
         if (!"replace replace SUPER me FUN replace SUPER me FUN SUPER me FUN SUPER me FUN replace SUPER me FUN SUPER me FUN"
-                .equals(result)) {
+            .equals(result)) {
             System.out.println("replace() IS NOT WORKING AS EXPECTED!");
         }
 
-        result = runFunctionalityTest(theHistory, sourceText, "me replace me", "AWE SUPER HAPPY FUN");
+        result = runFunctionalityTest(theHistory, sourceText, "me replace me",
+            "AWE SUPER HAPPY FUN");
         if (!"replace replace AWE SUPER HAPPY FUN me AWE SUPER HAPPY FUN me".equals(result)) {
             System.out.println("replace() IS NOT WORKING AS EXPECTED!");
         }
@@ -108,13 +117,16 @@ public class TestTheHistory {
 
         start = System.currentTimeMillis();
         theHistory.add(readFromFile("src/main/resources/Iliad.txt"));
-        System.out.println("Reading words from file took " + (System.currentTimeMillis() - start) + " ms (the size is now " + theHistory.size() + ")");
+        System.out.println("Reading words from file took " + (System.currentTimeMillis() - start)
+            + " ms (the size is now " + theHistory.size() + ")");
 
         start = System.currentTimeMillis();
+        System.out.println("Length before:" + theHistory.size());
         theHistory.removeWord("king");
         theHistory.removeWord("Zeus");
         theHistory.removeWord("Apollo");
         theHistory.removeWord("it");
+        System.out.println("Length after:" + theHistory.size());
         System.out.println("Removing words took " + (System.currentTimeMillis() - start) + " ms");
 
         start = System.currentTimeMillis();
@@ -135,7 +147,9 @@ public class TestTheHistory {
         theHistory.replace("the big", "the very big");
         theHistory.replace("a", "a big");
         theHistory.replace("a big", "a very big");
-        System.out.println("Replacing multiple words (with insertion) took " + (System.currentTimeMillis() - start) + " ms");
+        System.out.println(
+            "Replacing multiple words (with insertion) took " + (System.currentTimeMillis() - start)
+                + " ms");
 
         start = System.currentTimeMillis();
         theHistory.replace("Pet Il (blessed be his name)", "Pet Il (blessed be the name)");
@@ -144,7 +158,9 @@ public class TestTheHistory {
         theHistory.replace("the super big", "the really big");
         theHistory.replace("a very big", "a super big");
         theHistory.replace("a super big", "a really big");
-        System.out.println("Replacing multiple words (equal number) took " + (System.currentTimeMillis() - start) + " ms");
+        System.out.println(
+            "Replacing multiple words (equal number) took " + (System.currentTimeMillis() - start)
+                + " ms");
 
         start = System.currentTimeMillis();
         theHistory.replace("Pet Un (blessed be the name)", "Pet Un The Wise");
@@ -153,23 +169,25 @@ public class TestTheHistory {
         theHistory.replace("the big", "the");
         theHistory.replace("a really big", "a big");
         theHistory.replace("a big", "a");
-        System.out.println("Replacing multiple words (with removal) took " + (System.currentTimeMillis() - start) + " ms");
+        System.out.println(
+            "Replacing multiple words (with removal) took " + (System.currentTimeMillis() - start)
+                + " ms");
     }
 
     public static void main(String[] args) {
         System.out.println("****** Functionality Tests - Array *******");
         runAllFunctionalityTests(new TheHistoryArray());
-        System.out.println("****** Functionality Tests - ArrayList *******");
+        /*System.out.println("****** Functionality Tests - ArrayList *******");
         runAllFunctionalityTests(new TheHistoryArrayList());
         System.out.println("****** Functionality Tests - LinkedList *******");
-        runAllFunctionalityTests(new TheHistoryLinkedList());
+        runAllFunctionalityTests(new TheHistoryLinkedList());*/
 
         System.out.println("****** Array Tests *******");
         runAllTests(new TheHistoryArray());
-        System.out.println("****** ArrayList Tests *******");
+        /*System.out.println("****** ArrayList Tests *******");
         runAllTests(new TheHistoryArrayList());
         System.out.println("****** LinkedList Tests *******");
-        runAllTests(new TheHistoryLinkedList());
+        runAllTests(new TheHistoryLinkedList());*/
     }
 
 }
