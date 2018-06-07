@@ -51,9 +51,25 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
-        // is fromWords a subset?
-        //then what is the index of its first word?
-        
+        // the first occurrence of the fromWords in the wordsArray
+        int matchIndex = indexOfFirstString(wordsArray, fromWords, 0);
+
+        while (matchIndex > -1) {
+            int firstPartLength = matchIndex;
+            int secondPartLength = toWords.length;
+            int thirdPartLength = wordsArray.length - fromWords.length - firstPartLength;
+
+            String[] newWordsArray = new String[firstPartLength + secondPartLength
+                + thirdPartLength];
+            System.arraycopy(wordsArray, 0, newWordsArray, 0, firstPartLength);
+            System.arraycopy(toWords, 0, newWordsArray, matchIndex, secondPartLength);
+            System.arraycopy(wordsArray, matchIndex + fromWords.length, newWordsArray,
+                firstPartLength + secondPartLength, thirdPartLength);
+            wordsArray = newWordsArray;
+            // look for new matches from here
+            int indexToSearchFrom = firstPartLength + secondPartLength;
+            matchIndex = indexOfFirstString(wordsArray, fromWords, indexToSearchFrom);
+        }
     }
 
     @Override
@@ -77,17 +93,22 @@ public class TheHistoryArray implements TheHistory {
         return -1;
     }
 
-    private static int indexOfFirstString(String[] wholeArray, String[] subArray) {
+    private static int indexOfFirstString(String[] wholeArray, String[] subArray,
+        int indexToSearchFrom) {
         if (wholeArray.length > 0 && subArray.length > 0) {
-            for (int i = 0; i < wholeArray.length - subArray.length + 1; i++) {
+            // looking for matches from the given index
+            for (int i = indexToSearchFrom; i < wholeArray.length - subArray.length + 1; i++) {
                 int countOfMatch = 0;
+                // checking if it's a matching sequence
                 for (int j = 0; j < subArray.length; j++) {
                     if (!wholeArray[i + j].equals(subArray[j])) {
-                        break;
+                        break; // if even one doesn't match, it's not worth continuing
                     }
                     countOfMatch++;
                 }
                 if (countOfMatch == subArray.length) {
+                    // returning the first index from the larger array if match is found
+                    // this way only the first matching sequence is found
                     return i;
                 }
             }
