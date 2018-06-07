@@ -34,9 +34,9 @@ public class TestTheHistory {
 
     private static String runFunctionalityTest(TheHistory theHistory, String sourceText,
         String fromWords, String toWords) {
-        System.out.println("Length before adding: " + theHistory.size());
+//        System.out.println("Length before adding: " + theHistory.size());
         theHistory.add(sourceText);
-        System.out.println("Length after adding: " + theHistory.size());
+//        System.out.println("Length after adding: " + theHistory.size());
         theHistory.replace(fromWords, toWords);
         String result = theHistory.toString();
         theHistory.clear();

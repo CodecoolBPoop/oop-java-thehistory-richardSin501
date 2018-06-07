@@ -52,22 +52,28 @@ public class TheHistoryArray implements TheHistory {
     @Override
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
         // the first occurrence of the fromWords in the wordsArray
+        int indexToSearchFrom = 0;
         int matchIndex = indexOfFirstString(wordsArray, fromWords, 0);
 
         while (matchIndex > -1) {
-            int firstPartLength = matchIndex;
-            int secondPartLength = toWords.length;
-            int thirdPartLength = wordsArray.length - fromWords.length - firstPartLength;
+            if (fromWords.length != toWords.length) {
+                int firstPartLength = matchIndex;
+                int secondPartLength = toWords.length;
+                int thirdPartLength = wordsArray.length - fromWords.length - firstPartLength;
 
-            String[] newWordsArray = new String[firstPartLength + secondPartLength
-                + thirdPartLength];
-            System.arraycopy(wordsArray, 0, newWordsArray, 0, firstPartLength);
-            System.arraycopy(toWords, 0, newWordsArray, matchIndex, secondPartLength);
-            System.arraycopy(wordsArray, matchIndex + fromWords.length, newWordsArray,
-                firstPartLength + secondPartLength, thirdPartLength);
-            wordsArray = newWordsArray;
-            // look for new matches from here
-            int indexToSearchFrom = firstPartLength + secondPartLength;
+                String[] newWordsArray = new String[firstPartLength + secondPartLength
+                    + thirdPartLength];
+                System.arraycopy(wordsArray, 0, newWordsArray, 0, firstPartLength);
+                System.arraycopy(toWords, 0, newWordsArray, matchIndex, secondPartLength);
+                System.arraycopy(wordsArray, matchIndex + fromWords.length, newWordsArray,
+                    firstPartLength + secondPartLength, thirdPartLength);
+                wordsArray = newWordsArray;
+                // look for new matches from here
+                indexToSearchFrom = firstPartLength + secondPartLength;
+            } else {
+                System.arraycopy(toWords, 0, wordsArray, matchIndex, toWords.length);
+                indexToSearchFrom = matchIndex + toWords.length;
+            }
             matchIndex = indexOfFirstString(wordsArray, fromWords, indexToSearchFrom);
         }
     }
