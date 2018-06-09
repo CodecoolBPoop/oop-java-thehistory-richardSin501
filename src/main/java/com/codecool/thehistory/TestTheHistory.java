@@ -34,9 +34,9 @@ public class TestTheHistory {
 
     private static String runFunctionalityTest(TheHistory theHistory, String sourceText,
         String fromWords, String toWords) {
-//        System.out.println("Length before adding: " + theHistory.size());
+        System.out.println("Length before adding: " + theHistory.size());
         theHistory.add(sourceText);
-//        System.out.println("Length after adding: " + theHistory.size());
+        System.out.println("Length after adding: " + theHistory.size());
         theHistory.replace(fromWords, toWords);
         String result = theHistory.toString();
         theHistory.clear();
@@ -175,18 +175,18 @@ public class TestTheHistory {
     }
 
     public static void main(String[] args) {
-        System.out.println("****** Functionality Tests - Array *******");
-        runAllFunctionalityTests(new TheHistoryArray());
-        /*System.out.println("****** Functionality Tests - ArrayList *******");
+       /* System.out.println("****** Functionality Tests - Array *******");
+        runAllFunctionalityTests(new TheHistoryArray());*/
+        System.out.println("****** Functionality Tests - ArrayList *******");
         runAllFunctionalityTests(new TheHistoryArrayList());
-        System.out.println("****** Functionality Tests - LinkedList *******");
+        /*System.out.println("****** Functionality Tests - LinkedList *******");
         runAllFunctionalityTests(new TheHistoryLinkedList());*/
 
-        System.out.println("****** Array Tests *******");
-        runAllTests(new TheHistoryArray());
-        /*System.out.println("****** ArrayList Tests *******");
+        /*System.out.println("****** Array Tests *******");
+        runAllTests(new TheHistoryArray());*/
+        System.out.println("****** ArrayList Tests *******");
         runAllTests(new TheHistoryArrayList());
-        System.out.println("****** LinkedList Tests *******");
+        /*System.out.println("****** LinkedList Tests *******");
         runAllTests(new TheHistoryLinkedList());*/
     }
 

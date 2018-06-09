@@ -20,13 +20,16 @@ public class TheHistoryArray implements TheHistory {
 
     @Override
     public void removeWord(String wordToBeRemoved) {
-        int pos = indexOf(this.wordsArray, wordToBeRemoved);
-        if (pos > -1) {
+        int startingPos = 0;
+        int pos = indexOf(this.wordsArray, wordToBeRemoved, startingPos);
+        while (pos > -1) {
             String[] newWordsArray = new String[size() - 1];
             System.arraycopy(this.wordsArray, 0, newWordsArray, 0, pos);
             System.arraycopy(this.wordsArray, pos + 1, newWordsArray, pos,
                 newWordsArray.length - pos);
             this.wordsArray = newWordsArray;
+            pos = indexOf(this.wordsArray, wordToBeRemoved, startingPos);
+            startingPos = pos;
         }
     }
 
@@ -90,8 +93,8 @@ public class TheHistoryArray implements TheHistory {
         return sb.toString();
     }
 
-    private int indexOf(String[] wordsArray, String word) {
-        for (int i = 0; i < wordsArray.length; i++) {
+    private int indexOf(String[] wordsArray, String word, int startingPos) {
+        for (int i = startingPos; i < wordsArray.length; i++) {
             if (wordsArray[i].equals(word)) {
                 return i;
             }
