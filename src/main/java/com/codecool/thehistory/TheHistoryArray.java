@@ -59,7 +59,9 @@ public class TheHistoryArray implements TheHistory {
         int matchIndex = indexOfFirstString(wordsArray, fromWords, 0);
 
         while (matchIndex > -1) {
-            if (fromWords.length != toWords.length) {
+            if (Arrays.equals(fromWords, toWords)) {
+                break;
+            } else if (fromWords.length != toWords.length) {
                 int firstPartLength = matchIndex;
                 int secondPartLength = toWords.length;
                 int thirdPartLength = wordsArray.length - fromWords.length - firstPartLength;

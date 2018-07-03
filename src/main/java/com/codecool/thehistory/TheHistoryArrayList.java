@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
+import javafx.beans.WeakInvalidationListener;
 
 public class TheHistoryArrayList implements TheHistory {
 
@@ -42,23 +43,40 @@ public class TheHistoryArrayList implements TheHistory {
     public void replaceMoreWords(String[] fromWords, String[] toWords) {
         List<String> fromWordsList = Arrays.asList(fromWords);
         int indexOfFromWords = indexOfSublist(wordsArrayList, fromWordsList, 0);
+        int tLength = toWords.length;
+        int fLength = fromWords.length;
 
         while (indexOfFromWords > -1) {
             if (Arrays.equals(fromWords, toWords)) {
                 break;
-            } else if (fromWords.length != toWords.length) {
-                for (String fromWord : fromWords) {
-                    wordsArrayList.remove(indexOfFromWords);
+            }
+            if (tLength < fLength) {
+                for (int i = 0; i < fLength; i++) {
+                    if (i < tLength) {
+                        wordsArrayList.set(indexOfFromWords + i, toWords[i]);
+                    } else {
+                        wordsArrayList.remove(indexOfFromWords + tLength);
+                    }
                 }
-                wordsArrayList.addAll(indexOfFromWords, Arrays.asList(toWords));
+            } else if (tLength > fLength) {
+                for (int i = 0; i < tLength; i++) {
+                    if (i < fLength) {
+                        wordsArrayList.set(indexOfFromWords + i, toWords[i]);
+                    } else {
+                        wordsArrayList.add(indexOfFromWords + i, toWords[i]);
+                    }
+
+                }
             } else {
-                for (int i=0; i<fromWords.length; i++) {
-                    wordsArrayList.set(indexOfFromWords + i, fromWords[i]);
+                for (int i = 0; i < fLength; i++) {
+                    wordsArrayList.set(indexOfFromWords + i, toWords[i]);
                 }
             }
+
             indexOfFromWords = indexOfSublist(wordsArrayList, fromWordsList,
-                indexOfFromWords + toWords.length);
+                indexOfFromWords + tLength);
         }
+
     }
 
     @Override
@@ -77,13 +95,12 @@ public class TheHistoryArrayList implements TheHistory {
         int wSize = wholeList.size();
         int sSize = subList.size();
 
-        if (wSize > 0 && sSize > 0
-            && indexToSearchFrom < wSize - sSize) {
+        if (wSize > 0 && sSize > 0) {
             for (int i = indexToSearchFrom; i < wSize; i++) {
                 int countOfMatch = 0;
 
                 for (int j = 0; j < sSize; j++) {
-                    if (!wholeList.get(i + j).equals(subList.get(j))) {
+                    if (i + j >= wSize || !wholeList.get(i + j).equals(subList.get(j))) {
                         break;
                     }
                     countOfMatch++;
